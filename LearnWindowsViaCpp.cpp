@@ -58,17 +58,13 @@ BOOL StringReverseA(PSTR pMultiByteStr, DWORD cchLength) {
 
 int main() {
 
-	WCHAR szBuffer[4] = L"";
-	wcscpy_s(szBuffer, L"hi!");
-	std::wcout << szBuffer << std::endl;
+	HMODULE hModule = GetModuleHandle(NULL);
+	std::wcout << hModule << std::endl;
+	
+	hModule = NULL;
+	GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS, (LPCWSTR)main, &hModule);
+	std::wcout << hModule << std::endl;
 
-	StringReverse(szBuffer, 4);
-	std::wcout << szBuffer << std::endl;
-
-	char test[4] = "hi!";
-	// Now StringReverse() function only accept wchar_t since the UNICODE has been defined
-	StringReverseA(test, 4);
-	std::cout << test << std::endl;
-
+	system("pause");
 	return 0;
 }
