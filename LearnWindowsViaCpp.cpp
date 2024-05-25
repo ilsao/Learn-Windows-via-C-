@@ -1,4 +1,6 @@
-﻿#include <iostream>
+﻿#include <TCHAR.h>
+#include <stdio.h>
+#include <iostream>
 #include <windows.h>
 
 
@@ -65,6 +67,19 @@ int main() {
 	GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS, (LPCWSTR)main, &hModule);
 	std::wcout << hModule << std::endl;
 
+	TCHAR szCurDir[MAX_PATH];
+	DWORD cchLength = GetFullPathName(TEXT("C:"), MAX_PATH, szCurDir, NULL);
+	std::wcout << szCurDir << std::endl;
+
+	STARTUPINFO si = { sizeof(si) };
+	PROCESS_INFORMATION pi;
+	TCHAR szCommandLine[] = TEXT("notepad.exe");
+	CreateProcess(NULL, szCommandLine, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
+
 	system("pause");
+
+	CloseHandle(pi.hProcess);
+	CloseHandle(pi.hThread);
+
 	return 0;
 }
